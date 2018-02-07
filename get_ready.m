@@ -1,7 +1,12 @@
-% prepare data for ELAP software
-
+% Prepare data for ELAP software
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % x-fpn029 x-dmn029 pc-dmn029
-fname = 'pc-dmn029';
+%'021'  '027'  '029'  '030'  '031'  '036'  '037'  '040'  
+%'041'  '042'  '043'  '044'  '047'  '049'  '050'
+fname = 'x-fpn021';
+input_elat = 'envdata_alpha';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 fs = 250; % sampling freq
 
 filename = ['data/' fname '.mat'];
@@ -12,6 +17,10 @@ if size(matx,1) > size(matx,2)
    matx = matx';
 end
 demeaned = zscore(matx')';
+%demeaned = [demeaned; randn(1,size(demeaned,2))];
+
+%run ../../matlab/osl/osl-core/osl_startup.m
+demeaned = ROInets.remove_source_leakage(demeaned, 'closest');
 
 %pairwise = make_pairwise_corr(demeaned);
 %avgcorr  = make_corr_to_avg(demeaned);
@@ -27,44 +36,14 @@ envdata_gamma_3 = make_envelope(demeaned, [40 45], fs);
 envdata_gamma = (envdata_gamma_1 + envdata_gamma_2 + envdata_gamma_3)./3;
 clear envdata_gamma_1 envdata_gamma_2 envdata_gamma_3
 
-% uncomment when matrix is too big
-%demeaned = demeaned(:,1:250*60*3);
-
-%avgcorr2 = avgcorr.^2;
-%avgcorr2 = zscore(avgcorr2')';
-%save('data/elatinput.mat', 'pairwise')
-%save('data/elatinput.mat', 'avgcorr2')
-
-save('data/elatinput.mat', 'envdata_alpha')
+save('data/elatinput.mat', input_elat)
 Param.InputFile='data/elatinput.mat';
 Param.fRoi=1;
 Param.RoiFile=['data/' fname 'labels.dat'];
-Param.OutputFolder='out/';
+out_folder = ['out/' fname '/'];
+mkdir(out_folder)
+Param.OutputFolder= out_folder;
 Param.DataType=1;
 Param.fSaveBasinList=0;
-Param.Threshold=0;
-main(Param)
-
-pause;
-
-save('data/elatinput.mat', 'envdata_beta')
-Param.InputFile='data/elatinput.mat';
-Param.fRoi=1;
-Param.RoiFile=['data/' fname 'labels.dat'];
-Param.OutputFolder='out/';
-Param.DataType=1;
-Param.fSaveBasinList=0;
-Param.Threshold=0;
-main(Param)
-
-pause;
-
-save('data/elatinput.mat', 'envdata_gamma')
-Param.InputFile='data/elatinput.mat';
-Param.fRoi=1;
-Param.RoiFile=['data/' fname 'labels.dat'];
-Param.OutputFolder='out/';
-Param.DataType=1;
-Param.fSaveBasinList=0;
-Param.Threshold=0;
+Param.Threshold = 0;
 main(Param)
