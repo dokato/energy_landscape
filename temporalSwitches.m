@@ -51,3 +51,18 @@ set(gca,'ytick',[])
 set(gca,'xtick',linspace(1,Ndat,10))
 xticklabels(round(linspace(1/fs,Ndat/fs,10)*100)/100)
 xlabel('time [s]')
+
+
+%% Metropolis Hasting Algorithm
+load('BasinGraph.mat');
+% we make 10^6 steps and remove first half to avoid initial condition
+% influence
+[st,basst] = metrophastings(1000000, Eavg, BasinGraph);
+basst = basst(round(5*length(basst)/6):end);
+plotTemporalSwitches(basst, 250);
+title('FPN alpha sim')
+
+%% Temporal Switches from subjects
+[steps, stepsBasins] = stateSwitchesFromSignal(envdata_alpha,BasinGraph);
+plotTemporalSwitches(stepsBasins, 250);
+title(['FPN alpha subj: ' s{1} ])

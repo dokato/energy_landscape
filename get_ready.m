@@ -3,13 +3,14 @@
 % x-fpn029 x-dmn029 pc-dmn029
 %'021'  '027'  '029'  '030'  '031'  '036'  '037'  '040'  
 %'041'  '042'  '043'  '044'  '047'  '049'  '050'
-fname = 'x-fpn021';
-input_elat = 'envdata_alpha';
+%fname = 'x-fpn020609-2';
+%input_elat = 'envdata_alpha';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fs = 250; % sampling freq
 
-filename = ['data/' fname '.mat'];
+datafolder = 'data/sloreta/';
+filename = [datafolder fname '.mat'];
 matx = load(filename);
 fn = fieldnames(matx);
 matx = matx.(fn{1})';
@@ -20,7 +21,7 @@ demeaned = zscore(matx')';
 %demeaned = [demeaned; randn(1,size(demeaned,2))];
 
 %run ../../matlab/osl/osl-core/osl_startup.m
-demeaned = ROInets.remove_source_leakage(demeaned, 'closest');
+% demeaned = ROInets.remove_source_leakage(demeaned, 'closest');
 
 %pairwise = make_pairwise_corr(demeaned);
 %avgcorr  = make_corr_to_avg(demeaned);
@@ -39,11 +40,15 @@ clear envdata_gamma_1 envdata_gamma_2 envdata_gamma_3
 save('data/elatinput.mat', input_elat)
 Param.InputFile='data/elatinput.mat';
 Param.fRoi=1;
-Param.RoiFile=['data/' fname 'labels.dat'];
+Param.RoiFile=[datafolder fname 'labels.dat'];
 out_folder = ['out/' fname '/'];
 mkdir(out_folder)
 Param.OutputFolder= out_folder;
 Param.DataType=1;
 Param.fSaveBasinList=0;
+%[bestThr, rr] = bestThreshold(eval(input_elat));
 Param.Threshold = 0;
 main(Param)
+
+%disp('BEST THRESHOLD')
+%bestThr

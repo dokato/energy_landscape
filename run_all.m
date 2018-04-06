@@ -4,8 +4,8 @@ clear all
 %run ../../matlab/osl/osl-core/osl_startup.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-input_elat = 'envdata_beta';
-prefix = 'beta-dmnlr';
+input_elat = 'envdata_alpha';
+prefix = 'alpha-fpn';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 subj = {'021'  '027'  '029'  '030'  '031'  '036'  '037'  '040'  ...
