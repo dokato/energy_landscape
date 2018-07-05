@@ -8,9 +8,8 @@ function [steps, stepsBasins] = metrophastings(Nsim, Eavg, BasinGraph)
 %   steps - vector with indices of states
 %   stepsBasins - vector with assignement of states to basins
 % Read par. 2.10 from Ezaki et al 2018 Human Brain Mapping. for more.
+% Dominik Krzeminski 2018
 
-%Nsim = 10000; % simulation steps
-%load('BasinGraph.mat')
 energiesVec    = Eavg; 
 basinAssigns   = BasinGraph(:,3);
 
