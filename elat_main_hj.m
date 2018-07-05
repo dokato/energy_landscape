@@ -1,9 +1,15 @@
-function [Ecalc, LocalMinIndex] = elat_main_hj(h, J, E)
+function [Ecalc, LocalMinIndex] = elat_main_hj(h, J, E, RoiNameFile)
 % modification of elat main
 %
 if nargin < 3
     E = mfunc_Energy(h, J);
 end
+if nargin < 4
+    Name = [];
+else
+    Name = flipud(importdata(RoiNameFile));
+end
+
 Ecalc = E;
 %% Calculate Local Minima
 nodeNumber = log2(length(E));
@@ -28,6 +34,5 @@ save('BasinGraph.mat', 'BasinGraph')
 %     Name = [];
 % end
 % Name = [];
-Name = [];
 vectorList = mfunc_VectorList(nodeNumber);
 mfunc_ActivityMap(vectorList, LocalMinIndex, Name);
