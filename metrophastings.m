@@ -18,7 +18,7 @@ Nn = log2(BasinGraph(end,1));
 binStates = mfunc_VectorList(Nn);
 
 steps = zeros(Nsim,1);
-steps(1) = 1;
+steps(1) = datasample(1:Nn,1);
 for i=2:Nsim
     neighvec = neighbours(getBinState(steps(i-1), binStates), binStates);
     nxt = randsample(neighvec, 1);

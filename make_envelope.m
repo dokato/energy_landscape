@@ -1,14 +1,18 @@
-function [ndata] = make_envelope(data, freq, fs)
+function [ndata] = make_envelope(data, freq, fs, norm)
 %MAKE_ENVELOPE using hilbert transform
 % data - data in format ROIs x timesteps
 % freq - two element vector with frequencies to Hilbert transform
 % fs - sampling freq
+% norm - normalization type: 1- z-score, 2 - median shift
 
 if nargin < 2
     freq = [8,12];
 end
 if nargin < 3
     error('Specify fs!');
+end
+if nargin < 4
+    norm = 1;
 end
 
 [N, M] = size(data);
@@ -26,7 +30,13 @@ for k = 1:N
     hndata(k,:) = abs(hilbert(filtfilt(sos, g, data(k,:))));
 end
 
-ndata = zscore(hndata')';
+if norm == 1
+    ndata = zscore(hndata')';
+elseif norm == 2
+    ndata = hndata-repmat(median(hndata,2),1,size(hndata,2));
+else
+    error('norm arg not recognized, check the docs') 
+end
 % two seconds out of the data to get rid of filtering edge effects
 ndata = ndata(:,fs:end-fs);
 end
