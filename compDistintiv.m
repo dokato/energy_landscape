@@ -1,7 +1,7 @@
 function distin = compDistintiv(minimumIdx,energies)
 %compDistintiv computes distintivenes defined as:
-%             average difference between energy value of minimum
-%             and their neighbours
+%             average difference between energy value of neighbours
+%             and minimum
 % INPUT:
 %   minimumIdx - integer with minimum index
 %   energies - vector with energy values
@@ -21,7 +21,7 @@ for nn = nbvec'
     ii = ii + 1;
 end
 
-distin = mean(energiesNeigh - energyOfState(nn, energies));
+distin = mean(energiesNeigh - energyOfState(minimumIdx, energies));
 end
 
 function bs = getBinState(numstate, binStates)

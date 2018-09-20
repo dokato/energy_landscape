@@ -22,10 +22,20 @@ else
     disp('No differences in minima between P & C.')
 end
 
+% for dm = different_mins'
+%     vecDist = [];
+%     for us=1:size(aset,1)
+%         vecDist = [vecDist compDistintiv(dm,aset(us,:))];
+%     end
+%     dm
+%     meanDistinctivity = mean(vecDist);
+%     meanDistinctivity
+% end
+
 for dm = different_mins'
     vecDist = [];
-    for us=1:size(aset,1)
-        vecDist = [vecDist compDistintiv(1,aset(us,:))];
+    for us=1:size(bset,1)
+        vecDist = [vecDist compDistintiv(dm,bset(us,:))];
     end
     dm
     meanDistinctivity = mean(vecDist);
