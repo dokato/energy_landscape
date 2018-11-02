@@ -60,9 +60,28 @@ load('BasinGraph.mat');
 [st,basst] = metrophastings(1000000, Eavg, BasinGraph);
 basst = basst(round(5*length(basst)/6):end);
 plotTemporalSwitches(basst, 250);
-title('FPN alpha sim')
+title('FPN beta sim')
 
 %% Temporal Switches from subjects
 [steps, stepsBasins] = stateSwitchesFromSignal(envdata_alpha,BasinGraph);
 plotTemporalSwitches(stepsBasins, 250);
 title(['FPN alpha subj: ' s{1} ])
+
+
+%% Temporal switches for Epilepsy
+load('etotal')
+load('BasinGraph.mat');
+freq = 'beta';
+network = 'dmnlr';
+MINIMUM = 196;
+
+[st,basst] = metrophastings(500000, mean(etotal.con.([freq '_' network]),1), BasinGraph);
+st = st(round(5*length(st)/6):end);
+con_ratio = length(find(st==MINIMUM))/length(st);
+
+[st,basst] = metrophastings(500000, mean(etotal.pat.([ freq '_' network]),1), BasinGraph);
+st = st(round(5*length(st)/6):end);
+pat_ratio = length(find(st==MINIMUM))/length(st);
+
+bar(1:2, [con_ratio, pat_ratio])
+

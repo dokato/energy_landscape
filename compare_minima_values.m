@@ -1,6 +1,7 @@
-band = 'beta';
-network = 'dmnlr';
+band = 'theta';
+network = 'fpn';
 
+load('etotal')
 casename = [band '_' network];
 
 disp('Patients')
@@ -45,8 +46,17 @@ for dm = different_mins'
     legend
     title(num2str(dm))
     hold off
+    figure;
+    hold on;
+    bar(1:2,[mean(vec_aset_norm), mean(vec_bset_norm)])
+    errorbar(1:2,[mean(vec_aset_norm), mean(vec_bset_norm)], [std(vec_aset_norm), std(vec_bset_norm)], '.')
+    hold off
+
     [pnor,hnor] = ranksum(vec_aset_norm, vec_bset_norm)
-    [p,h] = ranksum(vec_aset_norm, vec_bset_norm, 'alpha',alphasidak(0.05,14))
+    [p,h] = ranksum(vec_aset_norm, vec_bset_norm, 'alpha',alphasidak(0.05,16))
     %line([norm_ec_pat(dm) norm_ec_pat(dm)],get(hax,'YLim'),'Color','r')
     pause;
 end
+
+pvals = [0.0250 0.0013 0.6940 0.1727 6.0031e-04 0.0016 0.0044 0.5767 0.1265 0.0871 0.0096 0.1093 0.0940 4.0087e-09 8.6461e-08 7.3506e-10 4.0087e-09 8.6461e-08 8.6461e-08 0.5520 0.0686];
+fdr_bh(pvals)

@@ -23,6 +23,8 @@ demeaned = zscore(matx')';
 %run ../../matlab/osl/osl-core/osl_startup.m
 % demeaned = ROInets.remove_source_leakage(demeaned, 'closest');
 
+envdata_theta = make_envelope(demeaned, [4 7], fs, 1);
+envdata_theta = envdata_theta(:,2000:end-fs); % filteting effects
 envdata_alpha = make_envelope(demeaned, [8 13], fs, 1);
 envdata_beta_1 = make_envelope(demeaned, [18 22], fs, 1);
 envdata_beta_2 = make_envelope(demeaned, [22 26], fs, 1);

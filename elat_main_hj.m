@@ -1,4 +1,4 @@
-function [Ecalc, LocalMinIndex] = elat_main_hj(h, J, E, RoiNameFile)
+function [Ecalc, LocalMinIndex, BasinGraph] = elat_main_hj(h, J, E, RoiNameFile)
 % modification of elat main
 %
 if nargin < 3
