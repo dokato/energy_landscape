@@ -7,7 +7,7 @@ if nargin < 2
     Fs = 0;
 end
 %TODO make sure that it works regardless of shape
-statesflips = statesflips';
+statesflips = statesflips;
 Ndat = length(statesflips);
 
 statesflipscode = zeros(size(statesflips));

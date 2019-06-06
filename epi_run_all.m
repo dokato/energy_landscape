@@ -4,13 +4,13 @@
 %run ../../matlab/osl/osl-core/osl_startup.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-input_elat = 'envdata_theta';
-prefix = 'theta-fpn';
-datafolder = 'epidata2/networksP/';
-RoiNameFile = 'rois-fpn2.dat';
-FigFolderName = 'epifigs2/Pat';
-save_fig = 1;
-condition = 'pat';
+% input_elat = 'envdata_theta';
+% prefix = 'theta-fpn';
+% datafolder = 'epidata2/networksP/';
+% RoiNameFile = 'rois-fpn2.dat';
+% FigFolderName = 'epifigs2/Pat';
+% save_fig = 1;
+% condition = 'pat';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %contrsubjects = {'011012-50' '050412-3' '090811-1' '091210-2' '120309-1' ...
@@ -31,7 +31,7 @@ end
 
 subj = subjects;%eval(condition);
 
-%rrall = [];
+rrall = [];
 for s = subj
    fname = [prefix s{1}];
    get_ready;
@@ -42,7 +42,7 @@ end
 Ef = [];
 locmims = [];
 for s = subj
-   load(['out/' prefix s{1} '/Energy.mat'])
+   load(['out/' prefix s{1} condition '/Energy.mat'])
    Ef = [Ef; E'];
    locmims = [locmims length(LocalMinIndex)];
 end

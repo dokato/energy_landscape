@@ -25,7 +25,7 @@ end
 Ef = [];
 locmims = [];
 for s = subj
-   load(['out/' prefix s{1} '/Energy.mat'])
+   load(['out/' prefix s{1} condition '/Energy.mat'])
    Ef = [Ef; E'];
    locmims = [locmims length(LocalMinIndex)];
 end

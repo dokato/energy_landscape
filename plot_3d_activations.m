@@ -26,10 +26,9 @@ for j = 1: length(activeregions)
 end
 
 figure;
-A = atemplate('overlay',vals,'method',{'aal_light','spheres'});
+A = atemplate('hemi','left', 'overlay',vals,'method',{'aal_light','spheres'});
 %A = atemplate('overlay', vals, 'method','raycast', 'colbar', 0);
-alpha 0.5;
-colormap('jet');
+alpha 0.8;
 slice3();
 end
 

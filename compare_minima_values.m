@@ -1,7 +1,7 @@
-band = 'theta';
-network = 'fpn';
+band = 'beta';
+network = 'dmnlr';
 
-load('etotal')
+load('etotal-orig')
 casename = [band '_' network];
 
 disp('Patients')
@@ -14,20 +14,25 @@ close all;
 norm_ec_pat = ec_pat - min(ec_pat);
 norm_ec_con = ec_con - min(ec_con);
 
-if length(locmin_con) > length(locmin_pat)
-    different_mins = setdiff(locmin_con, locmin_pat);
-    aset = etotal.con.(casename);
-    bset = etotal.pat.(casename);
-elseif length(locmin_con) < length(locmin_pat)
-    different_mins = setdiff(locmin_pat, locmin_con);
-    aset = etotal.pat.(casename);
-    bset = etotal.con.(casename);
-else
-    disp('No differences in minima between P & C.')
-end
+% if length(locmin_con) > length(locmin_pat)
+%     different_mins = setdiff(locmin_con, locmin_pat);
+%     aset = etotal.con.(casename);
+%     bset = etotal.pat.(casename);
+% elseif length(locmin_con) < length(locmin_pat)
+%     different_mins = setdiff(locmin_pat, locmin_con);
+%     aset = etotal.pat.(casename);
+%     bset = etotal.con.(casename);
+% else
+%     disp('No differences in minima between P & C.')
+% end
+
+aset = etotal.con.(casename);
+bset = etotal.pat.(casename);
+different_mins = unique([locmin_con;locmin_pat]);
 
 alphasidak = @(alpha, m) 1 - (1 - alpha).^(1/m);
 
+all_pvals = [];
 for dm = different_mins'
     vec_aset_norm = [];
     for us=1:size(aset,1)
@@ -53,10 +58,19 @@ for dm = different_mins'
     hold off
 
     [pnor,hnor] = ranksum(vec_aset_norm, vec_bset_norm)
-    [p,h] = ranksum(vec_aset_norm, vec_bset_norm, 'alpha',alphasidak(0.05,16))
+    all_pvals = [all_pvals pnor];
+    [p,h] = ranksum(vec_aset_norm, vec_bset_norm, 'alpha',alphasidak(0.05,length(different_mins)))
     %line([norm_ec_pat(dm) norm_ec_pat(dm)],get(hax,'YLim'),'Color','r')
-    pause;
+    %pause;
 end
 
-pvals = [0.0250 0.0013 0.6940 0.1727 6.0031e-04 0.0016 0.0044 0.5767 0.1265 0.0871 0.0096 0.1093 0.0940 4.0087e-09 8.6461e-08 7.3506e-10 4.0087e-09 8.6461e-08 8.6461e-08 0.5520 0.0686];
-fdr_bh(pvals)
+%pvals = [0.0250 0.0013 0.6940 0.1727 6.0031e-04 0.0016 0.0044 0.5767 0.1265 0.0871 0.0096 0.1093 0.0940 4.0087e-09 8.6461e-08 7.3506e-10 4.0087e-09 8.6461e-08 8.6461e-08 0.5520 0.0686];
+%fdr_bh(pvals)
+
+disp('-------')
+ii = 0;
+for p = all_pvals
+    ii = ii + 1;
+    dm = different_mins';
+    disp([num2str(dm(ii)) ' - ' num2str(p)])
+end

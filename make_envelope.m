@@ -34,10 +34,12 @@ if norm == 1
     ndata = zscore(hndata')';
 elseif norm == 2
     ndata = hndata-repmat(median(hndata,2),1,size(hndata,2));
+elseif norm == 0
+    ndata = hndata;
 else
     error('norm arg not recognized, check the docs') 
 end
 % two seconds out of the data to get rid of filtering edge effects
-ndata = ndata(:,fs:end-fs);
+%ndata = ndata(:,fs:end-fs);
 end
 

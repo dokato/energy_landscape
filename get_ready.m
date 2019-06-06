@@ -18,13 +18,8 @@ if size(matx,1) > size(matx,2)
    matx = matx';
 end
 demeaned = zscore(matx')';
-%demeaned = [demeaned; randn(1,size(demeaned,2))];
-
-%run ../../matlab/osl/osl-core/osl_startup.m
-% demeaned = ROInets.remove_source_leakage(demeaned, 'closest');
 
 envdata_theta = make_envelope(demeaned, [4 7], fs, 1);
-envdata_theta = envdata_theta(:,2000:end-fs); % filteting effects
 envdata_alpha = make_envelope(demeaned, [8 13], fs, 1);
 envdata_beta_1 = make_envelope(demeaned, [18 22], fs, 1);
 envdata_beta_2 = make_envelope(demeaned, [22 26], fs, 1);
@@ -36,12 +31,18 @@ envdata_gamma_2 = make_envelope(demeaned, [35 40], fs, 1);
 envdata_gamma_3 = make_envelope(demeaned, [40 45], fs, 1);
 envdata_gamma = (envdata_gamma_1 + envdata_gamma_2 + envdata_gamma_3)./3;
 clear envdata_gamma_1 envdata_gamma_2 envdata_gamma_3
+time_limit = 40000;
+
+envdata_theta = envdata_theta(:,1:time_limit);
+envdata_alpha = envdata_alpha(:,1:time_limit);
+envdata_beta = envdata_beta(:,1:time_limit);
+envdata_gamma = envdata_gamma(:,1:time_limit);
 
 save('data/elatinput.mat', input_elat)
 Param.InputFile='data/elatinput.mat';
 Param.fRoi=1;
 Param.RoiFile=[datafolder fname 'labels.dat'];
-out_folder = ['out/' fname '/'];
+out_folder = ['out/' fname condition '/'];
 mkdir(out_folder)
 Param.OutputFolder= out_folder;
 Param.DataType=1;

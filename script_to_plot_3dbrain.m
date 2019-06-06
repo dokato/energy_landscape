@@ -103,3 +103,18 @@ dmn_activations= {
 };
 
 plot_3d_activations(fpn_labels, fpn_activations)
+
+
+% temp ---------------------------------
+netlabels= {
+'Precentral_L'
+'Precentral_R'
+};
+
+network_values = [-3, 3];
+vals = zeros(length(AAL_Labels),1)*nan;
+for j = 1: length(netlabels)
+    IndexC = strfind(AAL_Labels, netlabels{j});
+    Index = find(not(cellfun('isempty', IndexC)));
+    vals(Index) = network_values(j);
+end
