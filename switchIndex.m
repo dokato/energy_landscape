@@ -1,5 +1,5 @@
 function [swIdx] = switchIndex(switchvector)
-%switchIndex gives numer of switch index
+%switchIndex returns a ratio of a number of switches
 
 j_act = 0;
 j_all = 0;
