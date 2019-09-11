@@ -1,4 +1,5 @@
 % GLOBAL RUN OF ELAT
+% This script runs computations of Energy Landscape Pipeline using ELAT package from a source space data in particular frequency and network.
 % The best strategy is to run it from cmd-line:
 % matlab2017 -nodisplay -nosplash -nodesktop -r "run('global_run1.m');"
 
